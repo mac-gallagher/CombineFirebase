@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
     s.homepage         = 'https://github.com/rever-ai/CombineFirebase'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.author           = { 'kshivang' => 'shivang.iitk@gmail.com' }
-    s.source           = { :git => 'https://github.com/rever-ai/CombineFirebase.git', :tag => s.version.to_s }
+    s.source           = { :git => 'https://github.com/mac-gallagher/CombineFirebase.git', :tag => s.version.to_s }
     
 
     s.ios.deployment_target = '13.0'
