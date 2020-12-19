@@ -61,6 +61,20 @@ extension Query {
             .map { querySnapshotMapper($0, documentSnapshotMapper) }
             .eraseToAnyPublisher()
     }
+
+    public var cacheFirstGetDocuments: AnyPublisher<QuerySnapshot, Error> {
+        getDocuments(source: .cache)
+            .catch { (error) -> AnyPublisher<QuerySnapshot, Error> in
+                print("error loading from cache: \(error)")
+                return self.getDocuments(source: .server)
+            }.eraseToAnyPublisher()
+    }
+
+    public func getDocumentsCacheFirst<D: Decodable>(source: FirestoreSource = .default, as type: D.Type, documentSnapshotMapper: @escaping (DocumentSnapshot) throws -> D? = DocumentSnapshot.defaultMapper(), querySnapshotMapper: @escaping (QuerySnapshot, (DocumentSnapshot) throws -> D?) -> [D] = QuerySnapshot.defaultMapper()) -> AnyPublisher<[D], Error> {
+        cacheFirstGetDocuments
+            .map { querySnapshotMapper($0, documentSnapshotMapper) }
+            .eraseToAnyPublisher()
+    }
 }
 
 extension QuerySnapshot {
